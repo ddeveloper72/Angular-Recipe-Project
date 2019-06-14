@@ -10,8 +10,6 @@ import { RecipeDetailComponent } from './recipes/recipe-detail/recipe-detail.com
 import { RecipeItemComponent } from './recipes/recipe-list/recipe-item/recipe-item.component';
 import { ShoppingListComponent } from './shopping-list/shopping-list.component';
 import { ShoppingEditComponent } from './shopping-list/shopping-edit/shopping-edit.component';
-import { DropdownDirective } from './shared/dropdown.directive';
-import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 
 @NgModule({
   declarations: [
@@ -22,13 +20,11 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
     RecipeListComponent,
     RecipeItemComponent,
     ShoppingListComponent,
-    ShoppingEditComponent,
-    DropdownDirective
+    ShoppingEditComponent
   ],
   imports: [
     BrowserModule,
-    FormsModule,
-    BsDropdownModule.forRoot()
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
