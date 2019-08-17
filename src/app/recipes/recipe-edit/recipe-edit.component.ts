@@ -15,8 +15,10 @@ export class RecipeEditComponent implements OnInit {
   recipeForm: FormGroup;
   faMinusCircle = faMinusCircle;
 
-  constructor(private route: ActivatedRoute,
-              private recipeService: RecipeService) {}
+  constructor(
+    private route: ActivatedRoute,
+    private recipeService: RecipeService
+  ) {}
 
   ngOnInit() {
     this.route.params.subscribe((params: Params) => {
@@ -25,6 +27,10 @@ export class RecipeEditComponent implements OnInit {
       // console.log(this.editMode);
       this.initForm();
     });
+  }
+
+  onSubmit() {
+    console.log(this.recipeForm);
   }
 
   private initForm() {
@@ -45,4 +51,5 @@ export class RecipeEditComponent implements OnInit {
       description: new FormControl(recipeDescription)
     });
   }
+
 }
