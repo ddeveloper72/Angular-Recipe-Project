@@ -2,3 +2,10 @@
     padding: 10px;
     background-color: #737373;
 }
+
+input.ng-invalid.ng-touched,
+textarea.ng-invalid.ng-touched {
+  border: 1px solid red;
+  background-color: #ff00002e;
+  box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.54);
+}
