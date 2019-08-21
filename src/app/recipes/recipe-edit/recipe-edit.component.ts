@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { faMinusCircle} from '@fortawesome/free-solid-svg-icons';
 import { FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
 import { RecipeService } from '../recipe.service';
-import { Recipe } from '../recipe.model';
 
 @Component({
   selector: 'app-recipe-edit',
@@ -18,7 +17,8 @@ export class RecipeEditComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private recipeService: RecipeService
+    private recipeService: RecipeService,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -42,22 +42,27 @@ export class RecipeEditComponent implements OnInit {
     } else {
       this.recipeService.addRecipe(this.recipeForm.value);
     }
+    this.onCancel();
   }
 
   onAddIngredient() {
-    ( this.recipeForm.get('ingredients') as FormArray).push(
+    (this.recipeForm.get('ingredients') as FormArray).push(
       new FormGroup({
         name: new FormControl(null, Validators.required),
         amount: new FormControl(null, [
-                Validators.required,
-                Validators.pattern(/^[0-9]+(.[0-9]{1})*$/)
-              ])
+          Validators.required,
+          Validators.pattern(/^[0-9]+(.[0-9]{1})*$/)
+        ])
       })
     );
   }
 
   getControls() {
     return (this.recipeForm.get('ingredients') as FormArray).controls;
+  }
+
+  onCancel() {
+    this.router.navigate(['../'], { relativeTo: this.route });
   }
 
   private initForm() {
