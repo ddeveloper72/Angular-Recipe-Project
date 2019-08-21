@@ -77,7 +77,8 @@
                 </div>
                 <div class="col-sm-2 mt-2">
                    <button type="button"
-                   class="btn btn-danger"><fa-icon [icon]="faMinusCircle"></fa-icon></button>
+                   class="btn btn-danger"
+                   (click)="onDeleteIngredient(i)"><fa-icon [icon]="faMinusCircle"></fa-icon></button>
                 </div>
               </div>            
               <div class="row">
