@@ -32,9 +32,12 @@ export class AuthComponent {
                     console.log(responseData);
                     this.isLoading = false;
                 },
-                error => {
-                    console.log(error);
-                    this.error = 'An error has occurred!';
+                errorResponse => {
+                    console.log(errorResponse);
+                    switch (errorResponse.error.error.message) {
+                        case 'EMAIL_EXISTS':
+                            this.error = 'This email address has already been taken';
+                    }
                     this.isLoading = false;
                 }
             );
