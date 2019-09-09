@@ -30,21 +30,14 @@ export class AuthService {
     )
     .pipe(catchError(this.handleError), tap(
       responseData => {
-        const expirationDate = new Date(
-          new Date()
-          .getTime() + +responseData.expiresIn
-          * 1000
-          ); // convert time from milliseconds to seconds
-
-        const user = new User(
+        this.authenticationHandler(
           responseData.email,
-          responseData.idToken,
           responseData.localId,
-          expirationDate
-        );
-        this.user.next(user);
-      }
-    ));
+          responseData.idToken,
+          +responseData.expiresIn
+          );
+        })
+      );
   }
 
   login(email: string, password: string) {
@@ -57,7 +50,31 @@ export class AuthService {
           returnSecureToken: true
         }
       )
-      .pipe(catchError(this.handleError));
+      .pipe(catchError(this.handleError), tap(
+        responseData => {
+          this.authenticationHandler(
+          responseData.email,
+          responseData.localId,
+          responseData.idToken,
+          +responseData.expiresIn
+         );
+       })
+     );
+  }
+
+  private authenticationHandler(email: string, userId: string, token: string, expiresIn: number) {
+    const expirationDate = new Date(
+      new Date()
+      .getTime() + +expiresIn
+      * 1000); // convert time from milliseconds to seconds
+
+    const user = new User(
+      email,
+      userId,
+      token,
+      expirationDate
+    );
+    this.user.next(user);
   }
 
   private handleError(errorResponse: HttpErrorResponse) {
