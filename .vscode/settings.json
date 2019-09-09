@@ -13,5 +13,7 @@
         "fontawesome",
         "fortawesome",
         "minlength"
-    ]
+    ],
+    "javascript.preferences.quoteStyle": "single",
+    "typescript.preferences.quoteStyle": "single"
 }
