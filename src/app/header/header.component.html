@@ -5,16 +5,28 @@
     </div>
     <div class="collapse navbar-collapse">
       <ul class="navbar-nav">
-        <li><a class="nav-link" routerLinkActive="active" routerLink="/recipes">Recipe</a></li>
-        <li><a class="nav-link" routerLinkActive="active" routerLink="/auth">Login</a></li>
-        <li><a class="nav-link" routerLinkActive="active" routerLink="/shopping-list">Shopping List</a></li>
+        <li *ngIf="isAuthenticated">
+          <a class="nav-link" 
+          routerLinkActive="active" 
+          routerLink="/recipes">Recipe</a>
+        </li>
+        <li *ngIf="!isAuthenticated">
+          <a class="nav-link" 
+          routerLinkActive="active" 
+          routerLink="/auth">Login</a>
+        </li>
+        <li>
+          <a class="nav-link" 
+          routerLinkActive="active" 
+          routerLink="/shopping-list">Shopping List</a>
+        </li>
       </ul>
       <ul class="nav navbar-nav ml-auto navbar-right">
-        <li>
+        <li *ngIf="isAuthenticated">
           <a class="nav-link logout">Logout</a>
         </li>
       <div class="btn-group" dropdown>
-          <li class="dropdown">
+          <li class="dropdown" *ngIf="isAuthenticated">
             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" dropdownToggle (click)="false">Manage
               <span class="caret"></span></a>
             <ul class="dropdown-menu" *dropdownMenu>
