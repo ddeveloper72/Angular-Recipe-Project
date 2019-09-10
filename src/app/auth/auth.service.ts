@@ -62,7 +62,12 @@ export class AuthService {
      );
   }
 
-  private authenticationHandler(email: string, userId: string, token: string, expiresIn: number) {
+  private authenticationHandler(
+    email: string,
+    userId: string,
+    token: string,
+    expiresIn: number
+    ) {
     const expirationDate = new Date(
       new Date()
       .getTime() + +expiresIn
