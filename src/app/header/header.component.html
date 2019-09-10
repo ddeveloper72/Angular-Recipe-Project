@@ -23,7 +23,8 @@
       </ul>
       <ul class="nav navbar-nav ml-auto navbar-right">
         <li *ngIf="isAuthenticated">
-          <a class="nav-link logout">Logout</a>
+          <a class="nav-link logout"
+          (click)="onLogout()">Logout</a>
         </li>
       <div class="btn-group" dropdown>
           <li class="dropdown" *ngIf="isAuthenticated">
