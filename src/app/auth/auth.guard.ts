@@ -1,4 +1,4 @@
-import { 
+import {
     CanActivate,
     ActivatedRouteSnapshot,
     RouterStateSnapshot,
@@ -7,7 +7,7 @@ import {
     } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { AuthService } from './auth.service';
 
 @Injectable({ providedIn: 'root' })
@@ -22,12 +22,13 @@ export class AuthGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | Observable<boolean | UrlTree> {
     return this.authService.user.pipe(
-      map(user => {
-        const isAuthenticated = !!user;
-        if (isAuthenticated) {
-          return true;
-        }
-        return this.router.createUrlTree(['/auth']);
+        take(1), // prevents ongoing listening which can cause site effects.
+        map(user => {
+            const isAuthenticated = !!user;
+            if (isAuthenticated) {
+            return true;
+            }
+            return this.router.createUrlTree(['/auth']);
       })
 
       // tap(isAuthenticated => {
