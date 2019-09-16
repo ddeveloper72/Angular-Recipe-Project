@@ -1,16 +1,17 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { faExclamationCircle} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
-    selector: 'app-alert',
-    templateUrl: './alert.component.html',
-    styleUrls: ['./alert.component.css']
+  selector: 'app-alert',
+  templateUrl: './alert.component.html',
+  styleUrls: ['./alert.component.css']
 })
-
 export class AlertComponent {
-    @Input() message: string;
-    @Output() close = new EventEmitter<void>();
+  faExclamationCircle = faExclamationCircle;
+  @Input() message: string;
+  @Output() close = new EventEmitter<void>();
 
-    onClose() {
-        this.close.emit();
-    }
+  onClose() {
+    this.close.emit();
+  }
 }
