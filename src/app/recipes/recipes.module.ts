@@ -8,6 +8,7 @@ import { RecipeListComponent } from './recipe-list/recipe-list.component';
 import { RecipeItemComponent } from './recipe-list/recipe-item/recipe-item.component';
 import { RecipeStartComponent } from './recipe-start/recipe-start.component';
 import { RecipeEditComponent } from './recipe-edit/recipe-edit.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
     declarations: [
@@ -21,7 +22,8 @@ import { RecipeEditComponent } from './recipe-edit/recipe-edit.component';
     imports: [
         RouterModule,
         CommonModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        FontAwesomeModule
     ],
     exports: [
         RecipesComponent,
