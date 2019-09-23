@@ -28,15 +28,6 @@ import { RecipesRoutingModule } from './recipes-routing.module';
         FontAwesomeModule,
         BsDropdownModule.forRoot(),
         RecipesRoutingModule
-    ],
-    exports: [
-        RecipesComponent,
-        RecipeDetailComponent,
-        RecipeListComponent,
-        RecipeItemComponent,
-        RecipeStartComponent,
-        RecipeEditComponent
     ]
-
 })
 export class RecipesModule {}
