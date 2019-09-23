@@ -38,8 +38,10 @@ import { ShoppingListModule } from './shopping-list/shopping-list.module';
     RecipesModule,
     ShoppingListModule
   ],
-  providers: [ShoppingListService,
-    RecipeService, {
+  providers: [
+    ShoppingListService,
+    RecipeService,
+    {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptorService,
       multi: true
@@ -48,4 +50,4 @@ import { ShoppingListModule } from './shopping-list/shopping-list.module';
   bootstrap: [AppComponent],
   entryComponents: [AlertComponent]
 })
-export class AppModule { }
+export class AppModule {}

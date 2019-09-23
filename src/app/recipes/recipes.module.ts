@@ -13,21 +13,21 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { RecipesRoutingModule } from './recipes-routing.module';
 
 @NgModule({
-    declarations: [
-        RecipesComponent,
-        RecipeDetailComponent,
-        RecipeListComponent,
-        RecipeItemComponent,
-        RecipeStartComponent,
-        RecipeEditComponent
-    ],
-    imports: [
-        RouterModule,
-        CommonModule,
-        ReactiveFormsModule,
-        FontAwesomeModule,
-        BsDropdownModule.forRoot(),
-        RecipesRoutingModule
-    ]
+  declarations: [
+    RecipesComponent,
+    RecipeDetailComponent,
+    RecipeListComponent,
+    RecipeItemComponent,
+    RecipeStartComponent,
+    RecipeEditComponent
+  ],
+  imports: [
+    RouterModule,
+    CommonModule,
+    ReactiveFormsModule,
+    FontAwesomeModule,
+    BsDropdownModule.forRoot(),
+    RecipesRoutingModule
+  ]
 })
 export class RecipesModule {}
