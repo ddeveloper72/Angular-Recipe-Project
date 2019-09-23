@@ -10,6 +10,7 @@ import { RecipeStartComponent } from './recipe-start/recipe-start.component';
 import { RecipeEditComponent } from './recipe-edit/recipe-edit.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { RecipesRoutingModule } from './recipes-routing.module';
 
 @NgModule({
     declarations: [
@@ -25,7 +26,8 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
         CommonModule,
         ReactiveFormsModule,
         FontAwesomeModule,
-        BsDropdownModule.forRoot()
+        BsDropdownModule.forRoot(),
+        RecipesRoutingModule
     ],
     exports: [
         RecipesComponent,
