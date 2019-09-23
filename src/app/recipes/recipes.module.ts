@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RecipesComponent } from './recipes.component';
 import { RecipeDetailComponent } from './recipe-detail/recipe-detail.component';
@@ -11,23 +10,24 @@ import { RecipeEditComponent } from './recipe-edit/recipe-edit.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { RecipesRoutingModule } from './recipes-routing.module';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
-  declarations: [
-    RecipesComponent,
-    RecipeDetailComponent,
-    RecipeListComponent,
-    RecipeItemComponent,
-    RecipeStartComponent,
-    RecipeEditComponent
-  ],
-  imports: [
-    RouterModule,
-    CommonModule,
-    ReactiveFormsModule,
-    FontAwesomeModule,
-    BsDropdownModule.forRoot(),
-    RecipesRoutingModule
-  ]
+    declarations: [
+        RecipesComponent,
+        RecipeDetailComponent,
+        RecipeListComponent,
+        RecipeItemComponent,
+        RecipeStartComponent,
+        RecipeEditComponent
+    ],
+    imports: [
+        RouterModule,
+        SharedModule,
+        ReactiveFormsModule,
+        FontAwesomeModule,
+        BsDropdownModule.forRoot(),
+        RecipesRoutingModule
+    ]
 })
 export class RecipesModule {}
