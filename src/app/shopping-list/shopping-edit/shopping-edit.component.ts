@@ -4,7 +4,7 @@ import { Ingredient } from 'src/app/shared/ingredient.model';
 import { ShoppingListService } from '../shopping-list.service';
 import { NgForm } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import * as ShoppingListActions from '../store/shopping-list actions';
+import * as ShoppingListActions from '../store/shopping-list.actions';
 
 @Component({
   selector: 'app-shopping-edit',
