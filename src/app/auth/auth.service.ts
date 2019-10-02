@@ -106,7 +106,10 @@ export class AuthService {
   }
 
   logout() {
-    this.user.next(null);
+    // this.user.next(null);
+    this.store.dispatch(
+      new AuthActions.Logout()
+    );
     this.router.navigate(['/auth']);
     localStorage.removeItem('userData');
     if (this.tokenExpirationTimer) {
@@ -139,7 +142,15 @@ export class AuthService {
       token,
       expirationDate
     );
-    this.user.next(user);
+    // this.user.next(user);
+    this.store.dispatch(
+      new AuthActions.Login({
+        email: email,
+        userID: userId,
+        token: token,
+        expirationDate: expirationDate
+      })
+    )
     this.autoLogout(expiresIn * 1000);
     localStorage.setItem('userData', JSON.stringify(user));
   }
