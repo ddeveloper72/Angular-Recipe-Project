@@ -1,10 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Store } from '@ngrx/store';
 import { throwError, BehaviorSubject } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { User } from './user.model';
 import { environment } from 'src/environments/environment';
+import * as fromApp from '../store/app.reducer';
+import * as AuthActions from './store/auth.actions';
 
 export interface AuthResponseData {
   idToken: string;
@@ -24,7 +27,8 @@ export class AuthService {
 
   constructor(
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private store: Store<fromApp.AppState>
     ) {}
   signup(email: string, password: string) {
     return this.http.post < AuthResponseData > (
@@ -63,7 +67,15 @@ export class AuthService {
       new Date(userData._tokenExpirationDate)
       );
     if (loadedUser.token) {
-        this.user.next(loadedUser);
+        // this.user.next(loadedUser);
+        this.store.dispatch(
+          new AuthActions.Login({
+            email: loadedUser.email,
+            userID: loadedUser.id,
+            token: loadedUser.token,
+            expirationDate: new Date(userData._tokenExpirationDate)
+          })
+        )
         const expirationDuration =
           new Date(userData._tokenExpirationDate).getTime() -
           new Date().getTime();
