@@ -1,7 +1,8 @@
 import { Actions, ofType, Effect } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
-import { switchMap, catchError, map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
+import { switchMap, catchError, map, tap } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 
 import * as AuthActions from './auth.actions';
@@ -54,5 +55,14 @@ export class AuthEffects {
         }),
     );
 
-    constructor(private actions$: Actions, private http: HttpClient) {}
+    @Effect({dispatch: false})
+    authSuccess = this.actions$.pipe(ofType(AuthActions.LOGIN),
+    tap(() => {
+        this.router.navigate(['/']);
+    }));
+
+    constructor(
+        private actions$: Actions,
+        private http: HttpClient,
+        private router: Router) {}
 }
