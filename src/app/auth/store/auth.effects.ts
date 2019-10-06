@@ -38,14 +38,12 @@ export class AuthEffects {
                     new Date()
                     .getTime() + +responseData.expiresIn
                     * 1000); // convert time from milliseconds to seconds
-                return of(
-                    new AuthActions.Login({
+                return new AuthActions.Login({
                     email: responseData.email,
                     userID: responseData.localId,
                     token: responseData.idToken,
                     expirationDate: expirationDate
-                })
-                );
+                });
             }),
                 catchError(error => {
                 /// ...
