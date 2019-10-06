@@ -3,12 +3,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { switchMap, catchError, map, tap } from 'rxjs/operators';
-import { environment } from '../../../environments/environment';
-
-import * as AuthActions from './auth.actions';
 import { of } from 'rxjs';
 
+import { environment } from '../../../environments/environment';
+import * as AuthActions from './auth.actions';
+
 export interface AuthResponseData {
+  kind: string;
   idToken: string;
   email: string;
   refreshToken: string;
@@ -43,10 +44,24 @@ export class AuthEffects {
               token: responseData.idToken,
               expirationDate
             });
-          }), catchError(error => {
-            /// ...
-            return of();
-          }));
+          }), catchError(errorResponse => {
+            let errorMessage = 'An unknown error has occurred!';
+            if (!errorResponse.error || !errorResponse.error.error) {
+              return of(new AuthActions.LoginFail(errorMessage));
+            }
+            switch (errorResponse.error.error.message) {
+              case 'EMAIL_EXISTS':
+                errorMessage = 'This email address has already been taken!';
+                break;
+              case 'EMAIL_NOT_FOUND':
+                errorMessage = 'Please check your email address';
+                break;
+              case 'INVALID_PASSWORD':
+                errorMessage = 'Please check your password!';
+            }
+            return of(new AuthActions.LoginFail(errorMessage));
+          })
+        );
     })
   );
 
