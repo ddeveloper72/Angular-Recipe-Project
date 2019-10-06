@@ -18,9 +18,7 @@ export interface AuthResponseData {
   registered?: boolean;
 }
 
-
-
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class AuthService {
   // user = new BehaviorSubject<User>(null);
   private tokenExpirationTimer: any;
@@ -29,22 +27,28 @@ export class AuthService {
     private http: HttpClient,
     private router: Router,
     private store: Store<fromApp.AppState>
-    ) {}
+  ) {}
   signup(email: string, password: string) {
-    return this.http.post < AuthResponseData > (
-      'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=' + environment.firebaseAPIKey, {
-        email,
-        password,
-        returnSecureToken: true
-      }
-    )
-    .pipe(catchError(this.handleError), tap(
-      responseData => {
-        this.authenticationHandler(
-          responseData.email,
-          responseData.localId,
-          responseData.idToken,
-          +responseData.expiresIn
+    return this.http
+      .post<
+        AuthResponseData
+      >(
+        'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=' +
+          environment.firebaseAPIKey,
+        {
+          email,
+          password,
+          returnSecureToken: true
+        }
+      )
+      .pipe(
+        catchError(this.handleError),
+        tap(responseData => {
+          this.authenticationHandler(
+            responseData.email,
+            responseData.localId,
+            responseData.idToken,
+            +responseData.expiresIn
           );
         })
       );
@@ -65,51 +69,53 @@ export class AuthService {
       userData.id,
       userData._token,
       new Date(userData._tokenExpirationDate)
-      );
+    );
     if (loadedUser.token) {
-        // this.user.next(loadedUser);
-        this.store.dispatch(
-          new AuthActions.Login({
-            email: loadedUser.email,
-            userID: loadedUser.id,
-            token: loadedUser.token,
-            expirationDate: new Date(userData._tokenExpirationDate)
-          })
-        );
-        const expirationDuration =
-          new Date(userData._tokenExpirationDate).getTime() -
-          new Date().getTime();
-        this.autoLogout(expirationDuration);
-      }
+      // this.user.next(loadedUser);
+      this.store.dispatch(
+        new AuthActions.Login({
+          email: loadedUser.email,
+          userId: loadedUser.id,
+          token: loadedUser.token,
+          expirationDate: new Date(userData._tokenExpirationDate)
+        })
+      );
+      const expirationDuration =
+        new Date(userData._tokenExpirationDate).getTime() -
+        new Date().getTime();
+      this.autoLogout(expirationDuration);
+    }
   }
 
   login(email: string, password: string) {
     return this.http
-      .post<AuthResponseData>(
-        'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=' + environment.firebaseAPIKey,
+      .post<
+        AuthResponseData
+      >(
+        'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=' +
+          environment.firebaseAPIKey,
         {
           email,
           password,
           returnSecureToken: true
         }
       )
-      .pipe(catchError(this.handleError), tap(
-        responseData => {
+      .pipe(
+        catchError(this.handleError),
+        tap(responseData => {
           this.authenticationHandler(
-          responseData.email,
-          responseData.localId,
-          responseData.idToken,
-          +responseData.expiresIn
-         );
-       })
-     );
+            responseData.email,
+            responseData.localId,
+            responseData.idToken,
+            +responseData.expiresIn
+          );
+        })
+      );
   }
 
   logout() {
     // this.user.next(null);
-    this.store.dispatch(
-      new AuthActions.Logout()
-    );
+    this.store.dispatch(new AuthActions.Logout());
     this.router.navigate(['/auth']);
     localStorage.removeItem('userData');
     if (this.tokenExpirationTimer) {
@@ -130,25 +136,17 @@ export class AuthService {
     userId: string,
     token: string,
     expiresIn: number
-    ) {
-    const expirationDate = new Date(
-      new Date()
-      .getTime() + +expiresIn
-      * 1000); // convert time from milliseconds to seconds
+  ) {
+    const expirationDate = new Date(new Date().getTime() + +expiresIn * 1000); // convert time from milliseconds to seconds
 
-    const user = new User(
-      email,
-      userId,
-      token,
-      expirationDate
-    );
+    const user = new User(email, userId, token, expirationDate);
     // this.user.next(user);
     this.store.dispatch(
       new AuthActions.Login({
-        email: email,
-        userID: userId,
-        token: token,
-        expirationDate: expirationDate
+        email,
+        userId,
+        token,
+        expirationDate
       })
     );
     this.autoLogout(expiresIn * 1000);
@@ -156,20 +154,20 @@ export class AuthService {
   }
 
   private handleError(errorResponse: HttpErrorResponse) {
-      let errorMessage = 'An unknown error has occurred!';
-      if (!errorResponse.error || !errorResponse.error.error) {
-        return throwError(errorMessage);
-      }
-      switch (errorResponse.error.error.message) {
-        case 'EMAIL_EXISTS':
-          errorMessage = 'This email address has already been taken!';
-          break;
-        case 'EMAIL_NOT_FOUND':
-          errorMessage = 'Please check your email address';
-          break;
-        case 'INVALID_PASSWORD':
-          errorMessage = 'Please check your password!';
-      }
+    let errorMessage = 'An unknown error has occurred!';
+    if (!errorResponse.error || !errorResponse.error.error) {
       return throwError(errorMessage);
+    }
+    switch (errorResponse.error.error.message) {
+      case 'EMAIL_EXISTS':
+        errorMessage = 'This email address has already been taken!';
+        break;
+      case 'EMAIL_NOT_FOUND':
+        errorMessage = 'Please check your email address';
+        break;
+      case 'INVALID_PASSWORD':
+        errorMessage = 'Please check your password!';
+    }
+    return throwError(errorMessage);
   }
 }

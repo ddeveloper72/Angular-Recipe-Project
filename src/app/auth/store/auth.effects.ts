@@ -19,48 +19,53 @@ export interface AuthResponseData {
 
 @Injectable()
 export class AuthEffects {
-    @Effect()
-    authLogin = this.actions$.pipe(
-        ofType(AuthActions.LOGIN_START),
-        switchMap((authData: AuthActions.LoginStart) => {
-            return this.http.post<AuthResponseData>(
-              'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=' +
-                environment.firebaseAPIKey,
-              {
-                email: authData.payload.email,
-                password: authData.payload.password,
-                returnSecureToken: true
-              }
-            )
-            .pipe(
-                map(responseData => {
-                const expirationDate = new Date(
-                    new Date()
-                    .getTime() + +responseData.expiresIn
-                    * 1000); // convert time from milliseconds to seconds
-                return new AuthActions.Login({
-                    email: responseData.email,
-                    userID: responseData.localId,
-                    token: responseData.idToken,
-                    expirationDate: expirationDate
-                });
-            }),
-                catchError(error => {
-                /// ...
-                return of();
-            }),
-            );
-        }),
-    );
+  @Effect()
+  authLogin = this.actions$.pipe(
+    ofType(AuthActions.LOGIN_START),
+    switchMap((authData: AuthActions.LoginStart) => {
+      return this.http
+        .post<
+          AuthResponseData
+        >(
+          'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=' +
+            environment.firebaseAPIKey,
+          {
+            email: authData.payload.email,
+            password: authData.payload.password,
+            returnSecureToken: true
+          }
+        )
+        .pipe(
+          map(responseData => {
+            const expirationDate = new Date(
+              new Date().getTime() + +responseData.expiresIn * 1000
+            ); // convert time from milliseconds to seconds
+            return new AuthActions.Login({
+              email: responseData.email,
+              userId: responseData.localId,
+              token: responseData.idToken,
+              expirationDate
+            });
+          }),
+          catchError(error => {
+            /// ...
+            return of();
+          })
+        );
+    })
+  );
 
-    @Effect({dispatch: false})
-    authSuccess = this.actions$.pipe(ofType(AuthActions.LOGIN),
+  @Effect({ dispatch: false })
+  authSuccess = this.actions$.pipe(
+    ofType(AuthActions.LOGIN),
     tap(() => {
-        this.router.navigate(['/']);
-    }));
+      this.router.navigate(['/']);
+    })
+  );
 
-    constructor(
-        private actions$: Actions,
-        private http: HttpClient,
-        private router: Router) {}
+  constructor(
+    private actions$: Actions,
+    private http: HttpClient,
+    private router: Router
+  ) {}
 }
