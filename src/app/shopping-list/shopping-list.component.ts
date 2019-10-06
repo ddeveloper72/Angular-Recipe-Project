@@ -3,7 +3,7 @@ import { Subscription, Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import { Ingredient } from '../shared/ingredient.model';
-import * as ShoppingListActions from '../shopping-list/store/shopping-list.actions';
+import * as ShoppingListActions from './store/shopping-list.actions';
 import * as fromApp from '../store/app.reducer';
 @Component({
   selector: 'app-shopping-list',
@@ -26,7 +26,7 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
     this.store.dispatch(new ShoppingListActions.StartEdit(index));
   }
 
-  ngOnDestroy(): void {
-    this.igChangeSubscription.unsubscribe();
+  ngOnDestroy() {
+    // this.igChangeSubscription.unsubscribe();
   }
 }
