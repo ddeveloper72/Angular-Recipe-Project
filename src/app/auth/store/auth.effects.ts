@@ -24,10 +24,8 @@ export class AuthEffects {
     ofType(AuthActions.LOGIN_START),
     switchMap((authData: AuthActions.LoginStart) => {
       return this.http
-        .post<
-          AuthResponseData
-        >(
-          'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=' +
+        .post<AuthResponseData>(
+          'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=' +
             environment.firebaseAPIKey,
           {
             email: authData.payload.email,
@@ -35,23 +33,20 @@ export class AuthEffects {
             returnSecureToken: true
           }
         )
-        .pipe(
-          map(responseData => {
+        .pipe(map(responseData => {
             const expirationDate = new Date(
               new Date().getTime() + +responseData.expiresIn * 1000
-            ); // convert time from milliseconds to seconds
+              ); // convert time from milliseconds to seconds
             return new AuthActions.Login({
               email: responseData.email,
               userId: responseData.localId,
               token: responseData.idToken,
               expirationDate
             });
-          }),
-          catchError(error => {
+          }), catchError(error => {
             /// ...
             return of();
-          })
-        );
+          }));
     })
   );
 
