@@ -1,5 +1,4 @@
 import { Action } from '@ngrx/store';
-import { START_EDIT } from 'src/app/shopping-list/store/shopping-list.actions';
 
 export const LOGIN_START = '[Auth] Login Start';
 export const AUTHENTICATE_SUCCESS = '[Auth] Authenticate';
