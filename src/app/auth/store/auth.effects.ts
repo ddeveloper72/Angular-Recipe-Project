@@ -97,7 +97,7 @@ this.authService.setLogoutTimer(+responseData.expiresIn * 1000); // milliseconds
     switchMap((authData: AuthActions.LoginStart) => {
       return this.http
         .post<AuthResponseData>(
-          "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=" +
+          'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=' +
             environment.firebaseAPIKey,
           {
             email: authData.payload.email,
@@ -127,7 +127,8 @@ this.authService.setLogoutTimer(+responseData.expiresIn * 1000); // milliseconds
 
   @Effect()
   autoLogin = this.actions$.pipe(
-    ofType(AuthActions.AUTO_LOGIN), map(() => {
+    ofType(AuthActions.AUTO_LOGIN),
+    map(() => {
     const userData: {
       email: string;
       id: string;
@@ -145,6 +146,10 @@ this.authService.setLogoutTimer(+responseData.expiresIn * 1000); // milliseconds
     );
     if (loadedUser.token) {
       // this.user.next(loadedUser);
+      const expirationDuration =
+        new Date(userData._tokenExpirationDate).getTime() -
+        new Date().getTime();
+      this.authService.setLogoutTimer(expirationDuration);
       return new AuthActions.AuthenticateSuccess({
           email: loadedUser.email,
           userId: loadedUser.id,
