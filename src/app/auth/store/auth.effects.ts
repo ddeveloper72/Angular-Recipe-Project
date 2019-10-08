@@ -156,11 +156,6 @@ this.authService.setLogoutTimer(+responseData.expiresIn * 1000); // milliseconds
           token: loadedUser.token,
           expirationDate: new Date(userData._tokenExpirationDate)
         });
-
-      // const expirationDuration =
-      //   new Date(userData._tokenExpirationDate).getTime() -
-      //   new Date().getTime();
-      // this.autoLogout(expirationDuration);
     }
     return {type: 'BOB'};
     })
