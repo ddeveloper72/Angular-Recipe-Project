@@ -46,8 +46,6 @@ export class SignupStart implements Action {
 
 export class AutoLogin implements Action {
   readonly type = AUTO_LOGIN;
-
-  constructor(public payload: {email: string; password: string}) {}
 }
 
 export class HandleError implements Action {
