@@ -167,7 +167,9 @@ this.authService.setLogoutTimer(+responseData.expiresIn * 1000); // milliseconds
   );
 
   @Effect({dispatch: false})
-  autoLogout = this.actions$.pipe(ofType(AuthActions.LOGOUT), tap(() => {
+  autoLogout = this.actions$.pipe(ofType(AuthActions.LOGOUT),
+  tap(() => {
+    this.authService.clearLogoutTimer();
     localStorage.removeItem('userData');
   }));
 
