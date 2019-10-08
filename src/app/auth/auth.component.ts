@@ -1,8 +1,13 @@
-import { Component, ComponentFactoryResolver, ViewChild, OnDestroy, OnInit } from '@angular/core';
+import { 
+    Component,
+    ComponentFactoryResolver,
+    ViewChild,
+    OnDestroy,
+    OnInit
+} from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
-import { AuthService, AuthResponseData } from './auth.service';
+import { Subscription } from 'rxjs';
 import { AlertComponent } from '../shared/alert/alert.component';
 import { PlaceholderDirective } from '../shared/placeholder.directive';
 import * as fromApp from '../store/app.reducer';
@@ -22,7 +27,6 @@ export class AuthComponent implements OnInit, OnDestroy {
     private storeSubscription: Subscription;
 
     constructor(
-        private authService: AuthService,
         private componentFactoryResolver: ComponentFactoryResolver,
         private store: Store<fromApp.AppState>,
         ) {}
@@ -31,7 +35,8 @@ export class AuthComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.storeSubscription  = this.store.select('auth').subscribe(authState => {
+        this.storeSubscription  = this.store.select('auth')
+        .subscribe(authState => {
             this.isLoading = authState.loading;
             this.error = authState.authError;
             if (this.error) {
@@ -39,7 +44,6 @@ export class AuthComponent implements OnInit, OnDestroy {
             }
         });
     }
-
 
     onSubmit(form: NgForm) {
         if (!form.valid) {
@@ -53,9 +57,9 @@ export class AuthComponent implements OnInit, OnDestroy {
             this.store.dispatch(new AuthActions.LoginStart({email, password})
             );
         } else {
-            this.store.dispatch(new AuthActions.SignupStart({email, password}));
+            this.store.dispatch(new AuthActions.SignupStart({email, password})
+            );
         }
-
         form.reset();
     }
 
@@ -73,15 +77,18 @@ export class AuthComponent implements OnInit, OnDestroy {
     }
 
     private showErrorAlert(message: string) {
-        const alertComponentFactory = this.componentFactoryResolver.resolveComponentFactory(
+        const alertComponentFactory = this.componentFactoryResolver
+        .resolveComponentFactory(
         AlertComponent);
         const hostViewContainerRef = this.alertHost.viewContainerRef;
         hostViewContainerRef.clear();
 
-        const componentReference = hostViewContainerRef.createComponent(alertComponentFactory);
+        const componentReference = hostViewContainerRef
+        .createComponent(alertComponentFactory);
 
         componentReference.instance.message = message;
-        this.closeSubscription = componentReference.instance.close.subscribe(() => {
+        this.closeSubscription = componentReference.instance.close
+        .subscribe(() => {
             this.closeSubscription.unsubscribe();
             hostViewContainerRef.clear();
         });
