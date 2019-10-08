@@ -119,7 +119,7 @@ this.authService.setLogoutTimer(+responseData.expiresIn * 1000); // milliseconds
 
   @Effect({ dispatch: false })
   authRedirect = this.actions$.pipe(
-    ofType(AuthActions.AUTHENTICATE_SUCCESS, AuthActions.LOGOUT),
+    ofType(AuthActions.AUTHENTICATE_SUCCESS),
     tap(() => {
       this.router.navigate(['/']);
     })
@@ -171,6 +171,7 @@ this.authService.setLogoutTimer(+responseData.expiresIn * 1000); // milliseconds
   tap(() => {
     this.authService.clearLogoutTimer();
     localStorage.removeItem('userData');
+    this.router.navigate(['/auth']);
   }));
 
   constructor(
