@@ -7,6 +7,7 @@ import { of } from 'rxjs';
 
 import { environment } from '../../../environments/environment';
 import * as AuthActions from './auth.actions';
+import { User } from '../user.model';
 
 export interface AuthResponseData {
   kind: string;
@@ -26,6 +27,8 @@ const handleAuthentication = (
   ) => {
     const expirationDate = new Date(
       new Date().getTime() + +expiresIn * 1000); // convert time from milliseconds to seconds
+    const user = new User(email, userId, token, expirationDate );
+    localStorage.setItem('userData', JSON.stringify(user));
     return new AuthActions.AuthenticateSuccess({
       email,
       userId,
@@ -118,6 +121,11 @@ export class AuthEffects {
       this.router.navigate(['/']);
     })
   );
+
+  @Effect({dispatch: false})
+  autoLogout = this.actions$.pipe(ofType(AuthActions.LOGOUT), tap(() => {
+    localStorage.removeItem('userData');
+  }));
 
   constructor(
     private actions$: Actions,
