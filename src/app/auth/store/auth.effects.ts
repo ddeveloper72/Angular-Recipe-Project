@@ -8,6 +8,7 @@ import { of } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import * as AuthActions from './auth.actions';
 import { User } from '../user.model';
+import { AuthService } from '../auth.service';
 
 export interface AuthResponseData {
   kind: string;
@@ -71,7 +72,11 @@ export class AuthEffects {
             returnSecureToken: true
           }
         )
-        .pipe(map(responseData => {
+        .pipe(
+          tap(responseData => {
+this.authService.setLogoutTimer(+responseData.expiresIn * 1000); // milliseconds
+          }),
+          map(responseData => {
           return handleAuthentication(
             +responseData.expiresIn,
             responseData.email,
@@ -166,6 +171,7 @@ export class AuthEffects {
   constructor(
     private actions$: Actions,
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) {}
 }
