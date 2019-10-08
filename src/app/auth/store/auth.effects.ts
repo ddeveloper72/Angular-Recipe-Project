@@ -97,7 +97,7 @@ this.authService.setLogoutTimer(+responseData.expiresIn * 1000); // milliseconds
     switchMap((authData: AuthActions.LoginStart) => {
       return this.http
         .post<AuthResponseData>(
-          'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=' +
+          "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=" +
             environment.firebaseAPIKey,
           {
             email: authData.payload.email,
@@ -105,17 +105,15 @@ this.authService.setLogoutTimer(+responseData.expiresIn * 1000); // milliseconds
             returnSecureToken: true
           }
         )
-        .pipe(map(responseData => {
-            return handleAuthentication(
-              +responseData.expiresIn,
-              responseData.email,
-              responseData.localId,
-              responseData.idToken);
+        .pipe(tap(responseData => {
+            this.authService.setLogoutTimer(+responseData.expiresIn * 1000); // milliseconds
+          }),
+          map(responseData => {
+            return handleAuthentication(+responseData.expiresIn, responseData.email, responseData.localId, responseData.idToken);
           }),
           catchError(errorResponse => {
             return handleError(errorResponse);
-          })
-        );
+          }));
     })
   );
 
