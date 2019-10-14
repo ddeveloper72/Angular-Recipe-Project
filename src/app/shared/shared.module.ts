@@ -5,6 +5,7 @@ import { AlertComponent } from './alert/alert.component';
 import { PlaceholderDirective } from './placeholder.directive';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { NgxNavbarModule } from 'ngx-bootstrap-navbar';
 
 @NgModule({
     declarations: [
@@ -15,7 +16,8 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
     imports: [
         CommonModule,
         FontAwesomeModule,
-        BsDropdownModule.forRoot()
+        BsDropdownModule.forRoot(),
+        NgxNavbarModule
     ],
     exports: [
         AlertComponent,
@@ -23,7 +25,8 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
         PlaceholderDirective,
         CommonModule,
         FontAwesomeModule,
-        BsDropdownModule
+        BsDropdownModule,
+        NgxNavbarModule
     ],
   entryComponents: [AlertComponent]
 })
