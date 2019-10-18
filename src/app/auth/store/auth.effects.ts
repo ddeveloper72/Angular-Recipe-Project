@@ -34,7 +34,8 @@ const handleAuthentication = (
       email,
       userId,
       token,
-      expirationDate
+      expirationDate,
+      redirect: true
     });
 };
 
@@ -120,8 +121,10 @@ this.authService.setLogoutTimer(+responseData.expiresIn * 1000); // milliseconds
   @Effect({ dispatch: false })
   authRedirect = this.actions$.pipe(
     ofType(AuthActions.AUTHENTICATE_SUCCESS),
-    tap(() => {
+    tap( (authSuccessAction: AuthActions.AuthenticateSuccess) => {
+      if (authSuccessAction.payload.redirect) {
       this.router.navigate(['/']);
+      }
     })
   );
 
@@ -154,7 +157,8 @@ this.authService.setLogoutTimer(+responseData.expiresIn * 1000); // milliseconds
           email: loadedUser.email,
           userId: loadedUser.id,
           token: loadedUser.token,
-          expirationDate: new Date(userData._tokenExpirationDate)
+          expirationDate: new Date(userData._tokenExpirationDate),
+          redirect: false
         });
     }
     return {type: 'BOB'};
