@@ -123,6 +123,9 @@ to represent the company, product, or service to which they refer.**
 @ngrx/effects
 MIT
 
+@ngrx/router-store
+MIT
+
 @ngrx/store
 MIT
 
