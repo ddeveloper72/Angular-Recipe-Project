@@ -12,7 +12,6 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { AppRoutingModule } from './app-routing.module';
 import { SharedModule } from './shared/shared.module';
-import { RecipeService } from './recipes/recipe.service';
 import { AuthInterceptorService } from './auth/auth.interceptor.service';
 import * as fromApp from './store/app.reducer';
 import { AuthEffects } from './auth/store/auth.effects';
@@ -36,7 +35,6 @@ import { RecipeEffects } from './recipes/store/recipe.effects';
     SharedModule
   ],
   providers: [
-    RecipeService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true }
   ],
   bootstrap: [AppComponent]
