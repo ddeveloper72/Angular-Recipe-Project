@@ -103,14 +103,7 @@
           "builder": "angular-cli-ghpages:deploy",
           "options": {}
         },
-        "server": {
-          "builder": "@angular-devkit/build-angular:server",
-          "options": {
-            "outputPath": "dist/server",
-            "main": "src/main.server.ts",
-            "tsConfig": "tsconfig.server.json"
-          },
-          "configurations": {
+         "configurations": {
             "production": {
               "fileReplacements": [{
                 "replace": "src/environments/environment.ts",
@@ -122,8 +115,7 @@
                 "styles": true
               }
             }
-          }
-        },
+          },
         "e2e": {
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
@@ -133,6 +125,29 @@
           "configurations": {
             "production": {
               "devServerTarget": "recipe-app:serve:production"
+            }
+          }
+        },
+        "server": {
+          "builder": "@angular-devkit/build-angular:server",
+          "options": {
+            "outputPath": "dist/server",
+            "main": "src/main.server.ts",
+            "tsConfig": "tsconfig.server.json"
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
+              "sourceMap": false,
+              "optimization": {
+                "scripts": false,
+                "styles": true
+              }
             }
           }
         }
