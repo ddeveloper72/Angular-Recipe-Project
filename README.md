@@ -1,6 +1,8 @@
 # [RecipeApp](https://ddeveloper72.github.io/Angular-Recipe-Project/)
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.8.
+...or from Heroku, https://ddeveloper72-angular-recipe-ap.herokuapp.com/recipes
+
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.2.11
 
 ## Development server
 
