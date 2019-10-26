@@ -17,7 +17,7 @@
     background-color: #bbbbbb;
 }
 
-.card:hover {
+/* .card:hover {
    background-color: #73737396;
    transform: perspective(1px) translateZ(0);
    box-shadow: 0 0 2px rgba(0, 0, 0, 0);
@@ -25,5 +25,19 @@
    -webkit-transition-duration: 0.3s;
    transition-duration: 0.3s;
    -webkit-transition-property: color, background-color;
-   transition-property: color, background-color;
+   transition-property: color, background-color; 
+}*/
+
+/* Ripple effect */
+.ripple {
+background-position: center;
+transition: background 0.8s;
+}
+.ripple:hover {
+background: #b2bcc5 radial-gradient(circle, transparent 1%, #b2bcc5  1%) center/15000%;
+}
+.ripple:active {
+background-color: #d0d6db;
+background-size: 100%;
+transition: background 0s;
 }
