@@ -55,6 +55,7 @@
   "devDependencies": {
     "@angular-devkit/build-angular": "^0.803.9",
     "@angular/language-service": "^8.2.11",
+    "@fortawesome/fontawesome-free": "^5.11.2",
     "@ngrx/store-devtools": "^8.4.0",
     "@types/jasmine": "~2.8.8",
     "@types/jasminewd2": "^2.0.8",
