@@ -9,3 +9,9 @@ textarea.ng-invalid.ng-touched {
   background-color: #ff00002e;
   box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.54);
 }
+
+img {
+  width: 100%;
+  max-width: 720px;
+  height: auto;
+}
