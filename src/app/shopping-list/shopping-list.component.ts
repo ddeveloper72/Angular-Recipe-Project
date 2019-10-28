@@ -11,7 +11,8 @@ import {
   state,
   animate,
   transition,
-  keyframes
+  keyframes,
+  group
 } from '@angular/animations';
 
 @Component({
@@ -20,56 +21,75 @@ import {
   styleUrls: ['./shopping-list.component.css'],
   animations: [
     trigger('items', [
-      state(
-        'in',
-        style({
-          opacity: 1,
-          transform: 'translateX(0)'
-        })
-      ),
       transition('void => *', [
-        animate(
-          1000,
-          keyframes([
-            style({
-              transform: 'translateX(-100px)',
-              opacity: 0,
-              offset: 0
-            }),
-            style({
-              transform: 'translateX(-50px)',
-              opacity: 0.5,
-              offset: 0.3
-            }),
-            style({
-              transform: 'translateX(-20px)',
-              opacity: 1,
-              offset: 0.8
-            }),
-            style({
-              transform: 'translateX(0px)',
-              opacity: 1,
-              offset: 1
-            })
-          ])
-        )
+        group([
+          animate(
+            1000,
+            keyframes([
+              style({
+                transform: 'translateX(-100px)',
+                opacity: 0,
+                offset: 0
+              }),
+              style({
+                transform: 'translateX(-50px)',
+                opacity: 0.5,
+                offset: 0.3
+              }),
+              style({
+                transform: 'translateX(-20px)',
+                opacity: 1,
+                offset: 0.8
+              }),
+              style({
+                transform: 'translateX(0px)',
+                opacity: 1,
+                offset: 1
+              })
+            ])
+          )
+        ])
       ]),
       transition('* => void', [
-        animate(
-          300,
-          style({
-            transform: 'translateX(100px)',
-            opacity: 0,
-            backgroundColor: 'red'
-          })
-        )
+        group([
+          animate(
+            1000,
+            keyframes([
+              style({
+                transform: 'translateX(0px)',
+                opacity: 1,
+                offset: 0,
+                backgroundColor: 'red'
+              }),
+              style({
+                transform: 'translateX(20px)',
+                opacity: 0.8,
+                offset: 0.3,
+                backgroundColor: 'red'
+              }),
+              style({
+                transform: 'translateX(50px)',
+                opacity: 0.5,
+                offset: 0.8,
+                backgroundColor: 'red'
+              }),
+              style({
+                transform: 'translateX(100px)',
+                opacity: 0,
+                offset: 1,
+                backgroundColor: 'red'
+              })
+            ])
+          )
+        ])
       ])
     ])
   ]
 })
+
 export class ShoppingListComponent implements OnInit, OnDestroy {
   ingredients: Observable<{ ingredients: Ingredient[] }>;
-  private igChangeSubscription: Subscription;
+
 
   constructor(private store: Store<fromApp.AppState>) {}
 
