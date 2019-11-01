@@ -25,5 +25,19 @@
         ]
       }
     }
-  ]
+    ],
+    "dataGroups": [
+      {
+        "name": "recipes",
+        "urls": [
+          "https://angular-recipe-project-b2193.firebaseio.com/recipes.json"
+        ],
+        "cacheConfig": {
+          "maxSize": 5,
+          "maxAge": "10m",
+          "timeout": "10s",
+          "strategy": "freshness"
+        }
+      }
+    ]
 }
