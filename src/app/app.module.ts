@@ -18,6 +18,7 @@ import { AuthEffects } from './auth/store/auth.effects';
 import { environment } from '../environments/environment';
 import { RecipeEffects } from './recipes/store/recipe.effects';
 import { FooterComponent } from './footer/footer.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { FooterComponent } from './footer/footer.component';
     EffectsModule.forRoot([AuthEffects, RecipeEffects]),
     StoreDevtoolsModule.instrument({logOnly: environment.production}),
     StoreRouterConnectingModule.forRoot(),
-    SharedModule
+    SharedModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true }
